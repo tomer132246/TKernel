@@ -189,7 +189,6 @@ TKernel/
 - **Two-stage bootloader:** Loads from 16-bit real mode to 64-bit long mode
 - **x86-64 long mode:** Full 64-bit kernel execution
 - **QEMU compatible:** Designed to run on QEMU virtualization
-- **Educational focus:** Well-commented code for learning
 
 ## Development Notes
 
