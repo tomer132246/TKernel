@@ -170,8 +170,8 @@ gdb
 ```
 TKernel/
 ├── boot64/                 # Bootloader source files
-│   ├── boot.s             # First stage bootloader (16-bit)
-│   ├── boot2.s            # Second stage bootloader (32/64-bit)
+│   ├── bootstage1.s       # First stage bootloader (16-bit)
+│   ├── bootstage2.s       # Second stage bootloader (32/64-bit)
 │   ├── bootmain64.c       # C code for bootloader
 │   ├── protmode_print.inc # Protected mode printing utilities
 │   └── *.ld               # Linker scripts

@@ -12,34 +12,34 @@ BOOT_DIR = boot64
 all: cleanall disk.img clean
 
 # Final disk img - to be loaded by qemu.
-disk.img: boot.bin boot2.bin
+disk.img: boot.bin bootstage2.bin
 	dd if=boot.bin   of=disk.img conv=notrunc bs=512 seek=0 count=1
-	dd if=boot2.bin   of=disk.img conv=notrunc bs=512 seek=1
+	dd if=bootstage2.bin   of=disk.img conv=notrunc bs=512 seek=1
 	dd if=/dev/zero of=disk.img conv=notrunc bs=512 seek=50 count=100
 
 # Link boot.o to boot.bin
 boot.bin: boot.o protmode_print.o
-	$(LINKER) -T $(BOOT_DIR)/boot.ld -Map=boot1.map $(LINKER_BINARY_FLAGS) -o boot.bin boot.o protmode_print.o
+	$(LINKER) -T $(BOOT_DIR)/bootstage1.ld -Map=bootstage1.map $(LINKER_BINARY_FLAGS) -o boot.bin boot.o protmode_print.o
 
 # Build boot.o object file
-boot.o: $(BOOT_DIR)/boot.s
-	$(ASSEMBLER) -o boot.o $(BOOT_DIR)/boot.s
+boot.o: $(BOOT_DIR)/bootstage1.s
+	$(ASSEMBLER) -o boot.o $(BOOT_DIR)/bootstage1.s
 
 # Build protmode_print.o object file
 protmode_print.o: $(BOOT_DIR)/protmode_print.inc
 	$(ASSEMBLER) -o protmode_print.o $(BOOT_DIR)/protmode_print.inc
 
 # Second bootloader stage: 2nd stage loaded by first stage
-boot2.o: $(BOOT_DIR)/boot2.s
-	$(ASSEMBLER) -o boot2.o $(BOOT_DIR)/boot2.s
+bootstage2.o: $(BOOT_DIR)/bootstage2.s
+	$(ASSEMBLER) -o bootstage2.o $(BOOT_DIR)/bootstage2.s
 
 # Build bootmain64.o object file
 bootmain64.o: $(BOOT_DIR)/bootmain64.c
 	$(GCC) $(GCCFLAGS) -c $(BOOT_DIR)/bootmain64.c -o bootmain64.o
 
-# Link boot2.o and bootmain64.o to 2nd stage boot2.bin
-boot2.bin: boot2.o bootmain64.o protmode_print.o
-	$(LINKER) -T $(BOOT_DIR)/boot2.ld -Map=boot2.map $(LINKER_BINARY_FLAGS) -o boot2.bin boot2.o bootmain64.o protmode_print.o
+# Link bootstage2.o and bootmain64.o to 2nd stage bootstage2.bin
+bootstage2.bin: bootstage2.o bootmain64.o protmode_print.o
+	$(LINKER) -T $(BOOT_DIR)/bootstage2.ld -Map=bootstage2.map $(LINKER_BINARY_FLAGS) -o bootstage2.bin bootstage2.o bootmain64.o protmode_print.o
 
 .PHONY: clean cleanall
 cleanall:

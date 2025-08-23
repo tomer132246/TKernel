@@ -1,6 +1,6 @@
 .code16
 .global tomer_start_boot
-.global .readboot2
+.global .readbootstage2
 .global prot32
 .global .read_ok
 
@@ -26,7 +26,7 @@ tomer_start_boot:
     /* ====================== LOAD NEXT STAGE (3 sectors) ===================== */
 
     /* Read sectors 2, 3, 4 from boot drive */
-.readboot2:
+.readbootstage2:
     /* Load sectors 2..4 (CHS: C=0,H=0,S=2, count=3) to 0x00010000 (ES=0x1000:BX=0) */
     mov  $0x1000, %ax         /* ES = 0x1000 => linear 0x10000 */
     mov  %ax, %es
@@ -46,7 +46,7 @@ tomer_start_boot:
     xor  %ax, %ax             /* AH=00h: reset disk system */
     int  $0x13
     dec  %si
-    jnz  .readboot2
+    jnz  .readbootstage2
     jmp  disk_fail
 
 .read_ok:

@@ -3,10 +3,10 @@
  */
 
 .code32
-.global tomer_start_boot2
+.global tomer_start_bootstage2
 .global long_mode_entry
 
-tomer_start_boot2:
+tomer_start_bootstage2:
     cli
     movl $hello_msg, %esi
     call serial_print

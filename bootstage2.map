@@ -10,8 +10,8 @@ Linker script and memory map
 
 .text           0x0000000000010000     0x61e4
  *(.text*)
- .text          0x0000000000010000     0x6046 boot2.o
-                0x0000000000010000                tomer_start_boot2
+ .text          0x0000000000010000     0x6046 bootstage2.o
+                0x0000000000010000                tomer_start_bootstage2
                 0x00000000000100fe                long_mode_entry
  .text          0x0000000000016046      0x13d bootmain64.o
                 0x0000000000016160                kernel_entry
@@ -20,21 +20,21 @@ Linker script and memory map
  *(.rodata*)
  *fill*         0x00000000000161a1        0x7 
  .rodata        0x00000000000161a8       0x3c bootmain64.o
-LOAD boot2.o
+LOAD bootstage2.o
 LOAD bootmain64.o
 LOAD protmode_print.o
-OUTPUT(boot2.bin binary)
+OUTPUT(bootstage2.bin binary)
 
 .eh_frame       0x00000000000161e8       0xd8
  .eh_frame      0x00000000000161e8       0xd8 bootmain64.o
 
 .data           0x00000000000162c0        0x0
- .data          0x00000000000162c0        0x0 boot2.o
+ .data          0x00000000000162c0        0x0 bootstage2.o
  .data          0x00000000000162c0        0x0 bootmain64.o
  .data          0x00000000000162c0        0x0 protmode_print.o
 
 .bss            0x00000000000162c0        0x0
- .bss           0x00000000000162c0        0x0 boot2.o
+ .bss           0x00000000000162c0        0x0 bootstage2.o
  .bss           0x00000000000162c0        0x0 bootmain64.o
  .bss           0x00000000000162c0        0x0 protmode_print.o
 

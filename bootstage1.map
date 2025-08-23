@@ -12,7 +12,7 @@ Linker script and memory map
  *(.text*)
  .text          0x0000000000007c00       0xda boot.o
                 0x0000000000007c00                tomer_start_boot
-                0x0000000000007c1d                .readboot2
+                0x0000000000007c1d                .readbootstage2
                 0x0000000000007c46                .read_ok
                 0x0000000000007c55                prot32
  .text          0x0000000000007cda       0x1e protmode_print.o
