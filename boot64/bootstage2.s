@@ -31,12 +31,6 @@ tomer_start_bootstage2:
     movl  %eax, pd+(0*8)
     movl  $0,   pd+(0*8)+4
 
-    /* pd[1] = &pt_kern | P|RW (covers VA 0x00200000..0x003FFFFF) */
-    lea   pt_kern, %eax
-    or    $0x03, %eax
-    movl  %eax, pd+(1*8)
-    movl  $0,   pd+(1*8)+4
-
     /* -------- Build pt_id: identity map first 2MiB -------- */
     /* PTE[i] = (i*0x1000) | P|RW ; i = 0..511 */
     lea   pt_id, %edi             /* dest table */
@@ -48,20 +42,6 @@ tomer_start_bootstage2:
     add   $8, %edi                /* next PTE (8 bytes) */
     dec   %ecx
     jnz   1b
-
-;     /* -------- Build pt_kern: map VA 0x200000 -> PA 0x00020000 -------- */
-;     /* PTE[k] = (0x00020000 + k*0x1000) | P|RW ; k = 0..KERN_PAGES-1 */
-;     lea   pt_kern, %edi
-;     mov   $0x00020003, %eax     /* phys base 0x20000 | P|RW */
-;     mov   $KERN_PAGES, %ecx
-; 2:  mov   %eax, (%edi)
-;     movl  $0, 4(%edi)
-;     add   $0x1000, %eax
-;     add   $8, %edi
-;     dec   %ecx
-;     jnz   2b
-
-
 
     /* ------------------------------ */
     /*       Enable long mode         */
@@ -119,6 +99,8 @@ long_mode_entry:
 
     /* Jump to kernel entry at 0x00200000 (2 MiB) */
     call kernel_entry
+    
+    
 
 hang64:
     hlt
@@ -158,8 +140,6 @@ pd:       .space 4096, 0
 .align 4096
 pt_id:    .space 4096, 0   /* identity 0..2MiB */
 .align 4096
-pt_kern:  .space 4096, 0   /* maps VA 0x200000 -> PA 0xF0000 (+KERN_PAGES) */
-
 /* ---------------------- Misc strings --------------------------- */
 hello_msg:
     .ascii "Boot Loader part 2 starting up.. \r\n\0"

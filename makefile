@@ -9,13 +9,14 @@ BOOT_DIR = boot64
 .ONESHELL:
 
 # Build all targets
-all: cleanall disk.img clean
+all: disk.img
+allclean: cleanall disk.img clean
 
 # Final disk img - to be loaded by qemu.
 disk.img: boot.bin bootstage2.bin
 	dd if=boot.bin   of=disk.img conv=notrunc bs=512 seek=0 count=1
 	dd if=bootstage2.bin   of=disk.img conv=notrunc bs=512 seek=1
-	dd if=/dev/zero of=disk.img conv=notrunc bs=512 seek=50 count=100
+	dd if=/dev/zero of=disk.img conv=notrunc bs=512 seek=200 count=100
 
 # Link boot.o to boot.bin
 boot.bin: boot.o protmode_print.o

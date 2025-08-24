@@ -1,6 +1,6 @@
 # TKernel
 
-A minimal x86-64 kernel and bootloader implementation written primarily for educational purposes. This project demonstrates low-level system programming concepts including bootloaders, memory management, and kernel initialization.
+A minimal x86-64 kernel and bootloader implementation written primarily for educational purposes. 
 
 Feel free to use, edit, and publish this code freely.
 
