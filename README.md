@@ -211,6 +211,24 @@ TKernel/
 - Verify QEMU installation: `qemu-system-x86_64 --version`
 - Check that disk.img was created successfully
 
+## Proxmox
+This is the config I used to run it on proxmox:
+
+boot: order=ide2
+cores: 1
+cpu: x86-64-v2-AES
+ide2: local:iso/disk.img,format=raw,size=150K
+memory: 2048
+meta: creation-qemu=9.0.2,ctime=1756035660
+name: os.test.vm
+numa: 0
+ostype: other
+serial0: socket
+smbios1: uuid=db442a84-bc5e-44ad-8ad4-924df104fae6
+sockets: 1
+vga: std
+vmgenid: da17882c-5fd3-418f-803f-521da7680884
+
 ## License
 
 This project is released under an open license. Feel free to use, modify, and distribute.
