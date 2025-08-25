@@ -11,6 +11,8 @@ Basically, we have a 2-stage bios based bootloader:
 - bootstage2: moves to long mode, jumps to bootmain64
 - bootmain64: parses the kernel.elf from disk, loads it to memory.
 
+To debug using GDB, please set an hardware breakpoint (hbreak) on VA(PA, using ID mapping for the first 2MB of memory): 0x15046. (Refer to the bootstage2.map).
+
 ## Prerequisites
 
 - Linux-based development environment
