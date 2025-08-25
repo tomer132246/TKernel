@@ -3,7 +3,13 @@
 A minimal x86-64 kernel and bootloader implementation written primarily for educational purposes. 
 
 Feel free to use, edit, and publish this code freely.
+
 @TomerAttali
+
+Basically, we have a 2-stage bios based bootloader.
+Bootstage1: moves to protected mode, and ljmp to the next stage.
+BootStage2: moves to long mode, jumps to bootmain64
+Bootmain64: parses the kernel.elf from disk, loads it to memory.
 
 ## Prerequisites
 
