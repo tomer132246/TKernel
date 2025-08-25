@@ -1,5 +1,6 @@
 #include <elf.h>
 #include <stdint.h>
+#include "hta_ata_pio_driver.h"
 
 extern uint64_t pml4[512];
 extern uint64_t pdpt[512];
@@ -46,33 +47,6 @@ static void serial_init(void){
     outb((unsigned short)0x3F8+4,0x0B);
 }
 
-void
-waitdisk(void)
-{
-    // wait for disk reaady
-	while ((inb(0x1F7) & 0xC0) != 0x40)
-		/* do nothing */;
-}
-
-void
-readsect(void *dst, unsigned int hdd_sector_offset)
-{
-	// wait for disk to be ready
-	waitdisk();
-
-	outb(ATA_IO_DRIVE_BASE + ATA_IO_REG_SECCOUNT0_OFFSET, 1);		// sector count
-	outb(0x1F3, hdd_sector_offset);
-	outb(0x1F4, hdd_sector_offset >> 8);
-	outb(0x1F5, hdd_sector_offset >> 16);
-	outb(0x1F6, (hdd_sector_offset >> 24) | 0xE0);
-	outb(0x1F7, 0x20);	// cmd 0x20 - read sectors
-
-	// wait for disk to be ready
-	waitdisk();
-
-	// read a sector - how many dwords? 512(sector size) / dword size = 4.
-	insl(0x1F0, dst, 512/4);
-}
 
 static void serial_putc(char c)
 { 
