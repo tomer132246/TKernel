@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "stdint.h": "c",
+        "elf.h": "c",
+        "cstdint": "c",
+        "stdint-gcc.h": "c"
+    }
+}

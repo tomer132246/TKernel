@@ -5,6 +5,11 @@
 .code32
 .global tomer_start_bootstage2
 .global long_mode_entry
+.global pml4
+.global pdpt
+.global pd
+.global pt_id
+.global gdt64_desc
 
 tomer_start_bootstage2:
     cli
@@ -25,14 +30,18 @@ tomer_start_bootstage2:
     movl  %eax, pdpt
     movl  $0,   pdpt+4
 
-    /* pd[0] = &pt_id | P|RW (covers VA 0x00000000..0x001FFFFF) */
+    /* pd[0] = &pt_id | P|RW (covers VA 0x00000000..0x001FFFFF) 
+    Tomer remember - virtual addresses from 0x0 - 0x1FFFFF will go to pd[0],
+    meaning - all the memory up from 0-2MB will be translated by the same pd[0], 
+    so, on the PAGE TABLE pointed by pd[0], we need to set the entire first 2mb to be pointing onto themselves.
+    */
     lea   pt_id, %eax
     or    $0x03, %eax
     movl  %eax, pd+(0*8)
     movl  $0,   pd+(0*8)+4
 
-    /* -------- Build pt_id: identity map first 2MiB -------- */
-    /* PTE[i] = (i*0x1000) | P|RW ; i = 0..511 */
+    /* Map the first 2MB VA to the first 2MB PA */
+    /* PTE[i] = (i*0x1000) | P|RW - i = 0..511 */
     lea   pt_id, %edi             /* dest table */
     mov   $0x00000003, %eax       /* phys|flags, start at 0 | (P|RW) */
     mov   $512, %ecx              /* 2MiB / 4KiB = 512 PTEs */
@@ -112,8 +121,6 @@ hang64:
 .set DATA32_SEL, 0x10
 .set CODE64_SEL, 0x18
 .set DATA64_SEL, 0x20
-.set KERN_VIRT_BASE, 0x00200000       /* where the kernel expects to run   */
-.set KERN_PHYS_BASE, 0x000F0000       /* where you loaded it physically    */
 .set KERN_PAGES,     1              /* map 128 * 4KiB = 512 KiB of code  */
 
 /* Minimal GDT: null, 32-bit code, 32-bit data, 64-bit code, data */

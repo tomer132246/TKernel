@@ -1,0 +1,67 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0xffffffff80000000                . = 0xffffffff80000000
+
+.text           0xffffffff80000000        0x6
+ *(.text*)
+ .text          0xffffffff80000000        0x6 kernel.o
+                0xffffffff80000000                kernel_main
+ *(.rodata*)
+
+.iplt           0xffffffff80000006        0x0
+ .iplt          0xffffffff80000006        0x0 kernel.o
+
+.eh_frame       0xffffffff80000008       0x34
+ .eh_frame      0xffffffff80000008       0x34 kernel.o
+                                         0x38 (size before relaxing)
+
+.rela.dyn       0xffffffff80000040        0x0
+ .rela.got      0xffffffff80000040        0x0 kernel.o
+ .rela.iplt     0xffffffff80000040        0x0 kernel.o
+                0xffffffff80001000                . = ALIGN (0x1000)
+
+.data           0xffffffff80001000        0x0
+ *(.data*)
+ .data          0xffffffff80001000        0x0 kernel.o
+
+.got            0xffffffff80001000        0x0
+ .got           0xffffffff80001000        0x0 kernel.o
+
+.got.plt        0xffffffff80001000        0x0
+ .got.plt       0xffffffff80001000        0x0 kernel.o
+
+.igot.plt       0xffffffff80001000        0x0
+ .igot.plt      0xffffffff80001000        0x0 kernel.o
+
+.bss            0xffffffff80001000        0x0
+ *(.bss*)
+ .bss           0xffffffff80001000        0x0 kernel.o
+LOAD kernel.o
+OUTPUT(kernel.elf elf64-x86-64)
+
+.debug_info     0x0000000000000000       0x83
+ .debug_info    0x0000000000000000       0x83 kernel.o
+
+.debug_abbrev   0x0000000000000000       0x44
+ .debug_abbrev  0x0000000000000000       0x44 kernel.o
+
+.debug_aranges  0x0000000000000000       0x30
+ .debug_aranges
+                0x0000000000000000       0x30 kernel.o
+
+.debug_line     0x0000000000000000       0x4a
+ .debug_line    0x0000000000000000       0x4a kernel.o
+
+.debug_str      0x0000000000000000       0xe9
+ .debug_str     0x0000000000000000       0xe9 kernel.o
+                                        0x102 (size before relaxing)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 kernel.o
+                                         0x12 (size before relaxing)

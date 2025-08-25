@@ -1,4 +1,10 @@
 #include <elf.h>
+#include <stdint.h>
+
+extern uint64_t pml4[512];
+extern uint64_t pdpt[512];
+extern uint64_t pd[512];
+extern uint64_t pt_id[512]; // identity map the first 2MB of memory
 
 #define ATA_IO_DRIVE_BASE              0x1F0
 #define ATA_IO_REG_DATA_OFFSET         0x00
