@@ -2,6 +2,7 @@
 ASSEMBLER = x86_64-elf-as
 LINKER = x86_64-elf-ld
 GCC = x86_64-elf-gcc
+ARCHIVER = x86_64-elf-ar
 GCCFLAGS = -ffreestanding -mno-red-zone -mcmodel=kernel -O0 -Wall -Wextra -Iinc #-g -O0 -c
 LINKER_BINARY_FLAGS = --oformat binary
 BOOT_DIR = boot64
@@ -47,8 +48,14 @@ bootmain64.o: $(BOOT_DIR)/bootmain64.c
 	$(GCC) $(GCCFLAGS) -c $(BOOT_DIR)/bootmain64.c -o bootmain64.o
 
 # Link bootstage2.o and bootmain64.o to 2nd stage bootstage2.bin
-bootstage2.bin: bootstage2.o bootmain64.o protmode_print.o
+bootstage2.bin: bootstage2.o bootmain64.o protmode_print.o hdd_ata_pio_driver.a
 	$(LINKER) -T $(BOOT_DIR)/bootstage2.ld -Map=bootstage2.map $(LINKER_BINARY_FLAGS) -o bootstage2.bin bootstage2.o bootmain64.o protmode_print.o
+
+hdd_ata_pio_driver.o: drivers/hdd_ata_pio_driver.c drivers/hta_ata_pio_driver.h
+	$(GCC) $(GCCFLAGS) -c drivers/hdd_ata_pio_driver.c -o hdd_ata_pio_driver.o
+
+hdd_ata_pio_driver.a: hdd_ata_pio_driver.o
+	$(ARCHIVER) rcs hdd_ata_pio_driver.a hdd_ata_pio_driver.o
 
 .PHONY: clean cleanall
 cleanall:
