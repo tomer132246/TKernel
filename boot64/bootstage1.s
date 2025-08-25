@@ -79,6 +79,7 @@ prot32:
     /* print a string to serial (COM1 @ 0x3F8) */
     movl $hello_msg, %esi
     call serial_print
+    /* Jump to the next part of the bootloader, should be located at PA 0x10000 */
     mov $0x00010000, %eax   
     jmp *%eax               
 
