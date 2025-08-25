@@ -7,23 +7,6 @@ extern uint64_t pdpt[512];
 extern uint64_t pd[512];
 extern uint64_t pt_id[512]; // identity map the first 2MB of memory
 
-#define ATA_IO_DRIVE_BASE              0x1F0
-#define ATA_IO_REG_DATA_OFFSET         0x00
-#define ATA_IO_REG_ERROR_OFFSET        0x01
-#define ATA_IO_REG_FEATURES_OFFSET     0x01
-#define ATA_IO_REG_SECCOUNT0_OFFSET    0x02
-#define ATA_IO_REG_LBA0_OFFSET         0x03 
-#define ATA_IO_REG_LBA1_OFFSET         0x04
-#define ATA_IO_REG_LBA2_OFFSET         0x05
-#define ATA_IO_REG_HDDEVSEL_OFFSET     0x06
-#define ATA_IO_REG_COMMAND_OFFSET      0x07
-#define ATA_IO_REG_STATUS_OFFSET       0x07
-
-#define ATA_CONTROL_BASE               0x3F6
-#define ATA_CONTROL_REG_ALTSTATUS_OFFSET 0x00
-#define ATA_CONTROL_REG_DEVADDRESS_OFFSET 0x01
-
-#define STATUS_REG_BSY_MASK          0b10000000 /* status offset 0x7, mask: 0x80 */
 
 static inline void outb(unsigned short p, unsigned char v)
 { __asm__ volatile("outb %0,%1"::"a"(v),"Nd"(p)); }
