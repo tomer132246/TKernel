@@ -3,6 +3,7 @@
 A minimal x86-64 kernel and bootloader implementation written primarily for educational purposes. 
 
 Feel free to use, edit, and publish this code freely.
+@TomerAttali
 
 ## Prerequisites
 

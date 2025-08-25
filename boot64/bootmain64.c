@@ -7,7 +7,6 @@ extern uint64_t pdpt[512];
 extern uint64_t pd[512];
 extern uint64_t pt_id[512]; // identity map the first 2MB of memory
 
-
 static inline void outb(unsigned short p, unsigned char v)
 { __asm__ volatile("outb %0,%1"::"a"(v),"Nd"(p)); }
 static inline unsigned char inb(unsigned short p)
